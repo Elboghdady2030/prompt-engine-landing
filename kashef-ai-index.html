@@ -1,0 +1,1973 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kashef Ai</title>
+    <style>
+:root {
+  --bg: #04110d;
+  --bg-soft: #071a14;
+  --panel: rgba(9, 27, 21, 0.78);
+  --panel-strong: rgba(10, 32, 25, 0.92);
+  --panel-muted: rgba(255, 255, 255, 0.04);
+  --line: rgba(110, 231, 183, 0.14);
+  --line-strong: rgba(110, 231, 183, 0.26);
+  --text: #ecfdf5;
+  --muted: rgba(220, 252, 231, 0.72);
+  --muted-soft: rgba(220, 252, 231, 0.5);
+  --accent: #34d399;
+  --accent-2: #10b981;
+  --accent-glow: rgba(52, 211, 153, 0.3);
+  --danger: #f87171;
+  --warning: #fbbf24;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.36);
+  --ok-bg: rgba(34, 197, 94, 0.14);
+  --ok-border: rgba(34, 197, 94, 0.24);
+  --ok-text: #bbf7d0;
+  --caution-bg: rgba(250, 204, 21, 0.14);
+  --caution-border: rgba(250, 204, 21, 0.24);
+  --caution-text: #fde68a;
+  --high-bg: rgba(249, 115, 22, 0.15);
+  --high-border: rgba(249, 115, 22, 0.26);
+  --high-text: #fdba74;
+  --critical-bg: rgba(239, 68, 68, 0.15);
+  --critical-border: rgba(239, 68, 68, 0.26);
+  --critical-text: #fecaca;
+  --info-bg: rgba(59, 130, 246, 0.14);
+  --info-border: rgba(59, 130, 246, 0.24);
+  --info-text: #bfdbfe;
+  --investigating-bg: rgba(168, 85, 247, 0.14);
+  --investigating-border: rgba(168, 85, 247, 0.24);
+  --investigating-text: #ddd6fe;
+}
+
+html[data-theme="light"] {
+  --bg: #f5f8f6;
+  --bg-soft: #e7f0eb;
+  --panel: rgba(255, 255, 255, 0.92);
+  --panel-strong: rgba(255, 255, 255, 0.99);
+  --panel-muted: rgba(15, 23, 42, 0.035);
+  --line: rgba(15, 118, 110, 0.1);
+  --line-strong: rgba(15, 118, 110, 0.18);
+  --text: #0f172a;
+  --muted: rgba(51, 65, 85, 0.82);
+  --muted-soft: rgba(71, 85, 105, 0.74);
+  --accent: #0f766e;
+  --accent-2: #14b8a6;
+  --accent-glow: rgba(20, 184, 166, 0.12);
+  --shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+  --ok-bg: rgba(34, 197, 94, 0.12);
+  --ok-border: rgba(34, 197, 94, 0.18);
+  --ok-text: #166534;
+  --caution-bg: rgba(250, 204, 21, 0.16);
+  --caution-border: rgba(250, 204, 21, 0.22);
+  --caution-text: #854d0e;
+  --high-bg: rgba(249, 115, 22, 0.14);
+  --high-border: rgba(249, 115, 22, 0.2);
+  --high-text: #9a3412;
+  --critical-bg: rgba(239, 68, 68, 0.12);
+  --critical-border: rgba(239, 68, 68, 0.18);
+  --critical-text: #991b1b;
+  --info-bg: rgba(59, 130, 246, 0.12);
+  --info-border: rgba(59, 130, 246, 0.18);
+  --info-text: #1d4ed8;
+  --investigating-bg: rgba(168, 85, 247, 0.12);
+  --investigating-border: rgba(168, 85, 247, 0.18);
+  --investigating-text: #6d28d9;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 20% 16%, var(--accent-glow), transparent 0 26%),
+    radial-gradient(circle at 78% 28%, rgba(52, 211, 153, 0.12), transparent 0 22%),
+    linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%);
+  overflow-x: hidden;
+}
+
+html[data-theme="light"] body {
+  background:
+    radial-gradient(circle at top left, rgba(20, 184, 166, 0.08), transparent 0 24%),
+    radial-gradient(circle at 82% 16%, rgba(14, 165, 233, 0.05), transparent 0 18%),
+    linear-gradient(180deg, #edf5f0 0%, #f8fbf9 100%);
+}
+
+.ambient-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(110, 231, 183, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(110, 231, 183, 0.08) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), transparent 88%);
+  opacity: 0.5;
+}
+
+html[data-theme="light"] .ambient-grid {
+  background-image:
+    linear-gradient(rgba(15, 118, 110, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 118, 110, 0.06) 1px, transparent 1px);
+  opacity: 0.55;
+}
+
+.shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  grid-template-areas: "sidebar main";
+  min-height: 100vh;
+  gap: 20px;
+  padding: 18px;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  background: linear-gradient(180deg, rgba(2, 6, 23, 0.92), rgba(7, 23, 17, 0.92));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: var(--shadow);
+  border-radius: 34px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  backdrop-filter: blur(20px);
+}
+
+html[data-theme="light"] .sidebar {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(241, 248, 244, 0.98));
+  border-color: rgba(15, 118, 110, 0.12);
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .brand,
+html[data-theme="light"] .site-card,
+html[data-theme="light"] .nav button,
+html[data-theme="light"] .topbar-meta strong,
+html[data-theme="light"] .topbar-meta span {
+  color: var(--text);
+}
+
+.brand h1 {
+  margin: 12px 0 10px;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.brand p,
+.site-card p {
+  margin: 0;
+  color: var(--muted-soft);
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted-soft);
+}
+
+.nav {
+  display: grid;
+  gap: 8px;
+}
+
+.nav button {
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(236, 253, 245, 0.92);
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 18px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 180ms ease;
+}
+
+html[data-theme="light"] .nav button {
+  color: rgba(15, 23, 42, 0.92);
+}
+
+.nav button.active,
+.nav button:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(110, 231, 183, 0.14);
+  color: #fff;
+}
+
+html[data-theme="light"] .nav button.active,
+html[data-theme="light"] .nav button:hover {
+  background: linear-gradient(180deg, rgba(15, 118, 110, 0.1), rgba(20, 184, 166, 0.06));
+  border-color: rgba(15, 118, 110, 0.16);
+  color: var(--text);
+}
+
+.site-card {
+  margin-top: auto;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 26px;
+  padding: 18px;
+}
+
+html[data-theme="light"] .site-card {
+  background: linear-gradient(180deg, rgba(250, 253, 251, 0.98), rgba(240, 247, 243, 0.98));
+  border-color: rgba(15, 118, 110, 0.1);
+}
+
+.site-card strong {
+  display: block;
+  margin: 10px 0 8px;
+}
+
+.main {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 2px 6px 0;
+  align-items: flex-start;
+}
+
+.topbar-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.topbar-meta span {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  color: var(--muted-soft);
+}
+
+.topbar-meta strong {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.topbar-meta.right {
+  text-align: right;
+}
+
+.toolbar-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.locale-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow);
+}
+
+.theme-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow);
+}
+
+html[data-theme="light"] .locale-switch,
+html[data-theme="light"] .theme-switch {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(15, 118, 110, 0.12);
+}
+
+.locale-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  min-width: 48px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+}
+
+.theme-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  min-width: 58px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+}
+
+.locale-button.active {
+  color: #022c22;
+  background: linear-gradient(180deg, #6ee7b7, #34d399);
+}
+
+.theme-button.active {
+  color: #022c22;
+  background: linear-gradient(180deg, #6ee7b7, #34d399);
+}
+
+.hero,
+.panel,
+.stat-card,
+.device {
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 34px;
+  padding: 30px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 20% 25%, rgba(52, 211, 153, 0.18), transparent 0 30%),
+    linear-gradient(180deg, rgba(8, 25, 19, 0.88), rgba(6, 19, 15, 0.88));
+  display: grid;
+  grid-template-columns: 1fr 520px;
+  gap: 24px;
+  align-items: center;
+  backdrop-filter: blur(18px);
+}
+
+html[data-theme="light"] .hero {
+  background:
+    radial-gradient(circle at 10% 12%, rgba(20, 184, 166, 0.07), transparent 0 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 250, 247, 0.98));
+  border-color: rgba(15, 118, 110, 0.12);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(110, 231, 183, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(110, 231, 183, 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+}
+
+html[data-theme="light"] .hero::after {
+  background-image:
+    linear-gradient(rgba(15, 118, 110, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 118, 110, 0.05) 1px, transparent 1px);
+}
+
+.hero h2 {
+  position: relative;
+  z-index: 1;
+  margin: 12px 0;
+  font-size: 54px;
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  max-width: 620px;
+}
+
+.hero p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  max-width: 600px;
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.primary-button,
+.secondary-button {
+  border-radius: 999px;
+  padding: 13px 18px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 180ms ease;
+}
+
+.primary-button {
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  background: linear-gradient(180deg, #34d399, #10b981);
+  color: #022c22;
+  box-shadow: 0 10px 28px rgba(16, 185, 129, 0.28);
+}
+
+.secondary-button {
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+}
+
+html[data-theme="light"] .primary-button {
+  color: white;
+  background: linear-gradient(180deg, #0f766e, #14b8a6);
+  box-shadow: 0 10px 26px rgba(15, 118, 110, 0.2);
+}
+
+html[data-theme="light"] .secondary-button {
+  background: rgba(15, 118, 110, 0.04);
+  border-color: rgba(15, 118, 110, 0.14);
+}
+
+.hero-visual {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 18px;
+}
+
+.device {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(5, 12, 10, 0.96), rgba(10, 26, 20, 0.96));
+}
+
+html[data-theme="light"] .device {
+  border-color: rgba(15, 118, 110, 0.12);
+  background: linear-gradient(180deg, rgba(250, 253, 251, 0.98), rgba(240, 247, 243, 0.98));
+}
+
+html[data-theme="light"] .dot {
+  background: rgba(15, 23, 42, 0.28);
+}
+
+.desktop {
+  width: 400px;
+  min-height: 260px;
+  border-radius: 24px;
+  padding: 18px;
+  transform: perspective(1000px) rotateY(-10deg) rotateX(4deg);
+}
+
+.mobile {
+  width: 128px;
+  min-height: 258px;
+  border-radius: 28px;
+  padding: 14px 12px;
+  transform: translateY(26px);
+}
+
+.device-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.device-brand {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--muted-soft);
+}
+
+.hero-kicker {
+  margin-top: 18px;
+  font-size: 31px;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  max-width: 280px;
+}
+
+.hero-copy {
+  margin-top: 10px;
+  color: var(--muted-soft);
+  font-size: 13px;
+  line-height: 1.6;
+  max-width: 260px;
+}
+
+.hero-panels {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mini-card {
+  border-radius: 14px;
+  padding: 12px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+html[data-theme="light"] .mini-card,
+html[data-theme="light"] .icon-pill,
+html[data-theme="light"] .mobile-card {
+  background: rgba(15, 118, 110, 0.035);
+  border-color: rgba(15, 118, 110, 0.1);
+}
+
+.mini-card.active {
+  border-color: var(--line-strong);
+  background: rgba(52, 211, 153, 0.08);
+  color: #d1fae5;
+}
+
+.hero-icons {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.icon-pill {
+  border-radius: 14px;
+  padding: 10px 8px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 11px;
+}
+
+.mobile-notch {
+  width: 54px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 auto;
+}
+
+.mobile-title {
+  margin-top: 18px;
+  font-size: 20px;
+  line-height: 1.05;
+}
+
+.mobile-stack {
+  margin-top: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.mobile-card {
+  border-radius: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.content {
+  display: grid;
+  gap: 18px;
+}
+
+.panel {
+  background: linear-gradient(180deg, var(--panel), rgba(5, 17, 13, 0.82));
+  border-radius: 30px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+}
+
+html[data-theme="light"] .panel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(245, 250, 247, 0.98));
+  border-color: rgba(15, 118, 110, 0.12);
+}
+
+.panel h3 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+.panel p.subtitle {
+  margin: 8px 0 0;
+  color: var(--muted-soft);
+  font-size: 14px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  padding: 20px;
+  background: linear-gradient(180deg, rgba(10, 31, 24, 0.92), rgba(8, 25, 19, 0.88));
+  border: 1px solid var(--line);
+}
+
+html[data-theme="light"] .stat-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(241, 248, 244, 0.98));
+  border-color: rgba(15, 118, 110, 0.12);
+}
+
+.stat-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -20% -55% auto;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.22), transparent 65%);
+}
+
+html[data-theme="light"] .stat-card::after {
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.12), transparent 65%);
+}
+
+.stat-card .label {
+  position: relative;
+  z-index: 1;
+  color: var(--muted-soft);
+  font-size: 14px;
+}
+
+.stat-card .value {
+  position: relative;
+  z-index: 1;
+  margin-top: 12px;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 16px;
+}
+
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+}
+
+.table th,
+.table td {
+  padding: 14px;
+  border-top: 1px solid rgba(110, 231, 183, 0.08);
+  text-align: left;
+  font-size: 14px;
+}
+
+html[data-theme="light"] .table th,
+html[data-theme="light"] .table td {
+  border-top-color: rgba(15, 118, 110, 0.08);
+}
+
+.table th {
+  color: var(--muted-soft);
+  font-weight: 600;
+}
+
+.table td {
+  color: rgba(236, 253, 245, 0.92);
+}
+
+html[data-theme="light"] .table td {
+  color: rgba(15, 23, 42, 0.9);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-right: 6px;
+  margin-top: 2px;
+  border: 1px solid transparent;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.badge.healthy,
+.badge.low {
+  color: var(--ok-text);
+  background: var(--ok-bg);
+  border-color: var(--ok-border);
+}
+
+.badge.active,
+.badge.open {
+  color: var(--info-text);
+  background: var(--info-bg);
+  border-color: var(--info-border);
+}
+
+.badge.warning,
+.badge.medium {
+  color: var(--caution-text);
+  background: var(--caution-bg);
+  border-color: var(--caution-border);
+}
+
+.badge.high {
+  color: var(--high-text);
+  background: var(--high-bg);
+  border-color: var(--high-border);
+}
+
+.badge.critical,
+.badge.danger,
+.badge.in_progress {
+  color: var(--critical-text);
+  background: var(--critical-bg);
+  border-color: var(--critical-border);
+}
+
+.badge.investigating {
+  color: var(--investigating-text);
+  background: var(--investigating-bg);
+  border-color: var(--investigating-border);
+}
+
+.card-list,
+.list-tight {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.item-card {
+  padding: 16px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+}
+
+html[data-theme="light"] .item-card {
+  background: linear-gradient(180deg, rgba(250, 253, 251, 0.98), rgba(243, 248, 245, 0.98));
+  border-color: rgba(15, 118, 110, 0.1);
+}
+
+.item-card strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.item-card p {
+  margin: 10px 0 0;
+  line-height: 1.7;
+}
+
+.metric-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+html[data-theme="light"] .metric-bar {
+  background: rgba(148, 163, 184, 0.18);
+}
+
+.metric-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #6ee7b7);
+  box-shadow: 0 0 18px rgba(52, 211, 153, 0.35);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+html[dir="rtl"] body {
+  font-family: "SF Arabic", "IBM Plex Sans Arabic", "Noto Sans Arabic", Tahoma, Arial, sans-serif;
+}
+
+html[dir="rtl"] .shell {
+  direction: ltr;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-areas: "main sidebar";
+}
+
+html[dir="rtl"] .topbar,
+html[dir="rtl"] .hero-actions,
+html[dir="rtl"] .hero-visual,
+html[dir="rtl"] .device-top,
+html[dir="rtl"] .split,
+html[dir="rtl"] .toolbar-group {
+  direction: rtl;
+}
+
+html[dir="rtl"] .topbar-meta {
+  text-align: right;
+}
+
+html[dir="rtl"] .topbar-meta.right {
+  text-align: left;
+}
+
+html[dir="rtl"] .hero {
+  direction: rtl;
+  grid-template-columns: 460px 1fr;
+}
+
+html[dir="rtl"] .table th,
+html[dir="rtl"] .table td,
+html[dir="rtl"] .nav button,
+html[dir="rtl"] .item-card,
+html[dir="rtl"] .panel,
+html[dir="rtl"] .hero,
+html[dir="rtl"] .brand,
+html[dir="rtl"] .site-card,
+html[dir="rtl"] .hero-copy,
+html[dir="rtl"] .hero-kicker {
+  text-align: right;
+}
+
+html[dir="rtl"] .eyebrow,
+html[dir="rtl"] .topbar-meta span {
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 13px;
+}
+
+html[dir="rtl"] .brand h1 {
+  letter-spacing: -0.02em;
+}
+
+html[dir="rtl"] .brand p,
+html[dir="rtl"] .site-card p,
+html[dir="rtl"] .panel p.subtitle,
+html[dir="rtl"] .hero p,
+html[dir="rtl"] .item-card,
+html[dir="rtl"] .table th,
+html[dir="rtl"] .table td {
+  line-height: 1.95;
+}
+
+html[dir="rtl"] .nav button {
+  font-size: 15px;
+  padding: 15px 18px;
+}
+
+html[dir="rtl"] .sidebar {
+  padding: 26px;
+}
+
+html[dir="rtl"] .table th,
+html[dir="rtl"] .table td {
+  direction: rtl;
+}
+
+html[dir="rtl"] .hero-visual {
+  justify-content: flex-start;
+}
+
+html[dir="rtl"] .device-brand {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+html[dir="rtl"] .desktop {
+  transform: perspective(1000px) rotateY(10deg) rotateX(4deg);
+}
+
+html[dir="rtl"] .hero-panels,
+html[dir="rtl"] .hero-icons,
+html[dir="rtl"] .mobile-stack {
+  direction: rtl;
+}
+
+html[dir="rtl"] .stats-grid,
+html[dir="rtl"] .two-col,
+html[dir="rtl"] .three-col {
+  direction: rtl;
+}
+
+html[dir="rtl"] .hero h2 {
+  font-size: 72px;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  max-width: 760px;
+}
+
+html[dir="rtl"] .hero p {
+  font-size: 17px;
+  max-width: 760px;
+}
+
+html[dir="rtl"] .hero-actions {
+  justify-content: flex-start;
+}
+
+html[dir="rtl"] .primary-button,
+html[dir="rtl"] .secondary-button {
+  font-size: 16px;
+  padding: 15px 22px;
+}
+
+html[dir="rtl"] .stat-card .label {
+  font-size: 15px;
+}
+
+html[dir="rtl"] .stat-card .value {
+  font-size: 38px;
+}
+
+html[dir="rtl"] .panel h3 {
+  font-size: 22px;
+}
+
+html[dir="rtl"] .badge {
+  font-size: 13px;
+  padding: 7px 12px;
+}
+
+@media (max-width: 1200px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 1080px) {
+  .shell {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "main"
+      "sidebar";
+  }
+
+  .sidebar {
+    grid-area: sidebar;
+  }
+
+  .stats-grid,
+  .two-col,
+  .three-col,
+  .split {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .shell {
+    padding: 12px;
+    gap: 14px;
+  }
+
+  .hero,
+  .panel,
+  .sidebar {
+    border-radius: 24px;
+  }
+
+  .hero {
+    padding: 22px;
+  }
+
+  .hero h2 {
+    font-size: 38px;
+  }
+
+  .desktop {
+    width: 100%;
+    transform: none;
+  }
+
+  html[dir="rtl"] .desktop {
+    transform: none;
+  }
+
+  .mobile {
+    display: none;
+  }
+
+  .hero-panels,
+  .hero-icons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+</style>
+  </head>
+  <body>
+    <div class="ambient-grid"></div>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="eyebrow">Saudi Industrial AI</div>
+          <h1>Kashef Ai</h1>
+          <p>Predictive maintenance, asset intelligence, and safety oversight for industrial operations.</p>
+        </div>
+        <nav class="nav" id="nav"></nav>
+        <div class="site-card">
+          <div class="eyebrow">Active Site</div>
+          <strong>Riyadh Metals Factory</strong>
+          <p>Localization-ready, multi-tenant, scalable industrial deployment profile.</p>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div class="topbar-meta">
+            <span data-i18n="topbar.projectLabel">Project</span>
+            <strong data-i18n="topbar.projectValue">SaaS Website</strong>
+          </div>
+          <div class="toolbar-group">
+            <div class="theme-switch" role="group" aria-label="Theme switcher">
+              <button class="theme-button active" data-theme="dark" title="Dark">Dark</button>
+              <button class="theme-button" data-theme="light" title="Light">Light</button>
+            </div>
+            <div class="locale-switch" role="group" aria-label="Language switcher">
+              <button class="locale-button active" data-locale="en">EN</button>
+              <button class="locale-button" data-locale="ar">AR</button>
+            </div>
+          </div>
+          <div class="topbar-meta right">
+            <span data-i18n="topbar.industryLabel">Industry</span>
+            <strong data-i18n="topbar.industryValue">Engineering</strong>
+          </div>
+        </div>
+        <header class="hero">
+          <div>
+            <div class="eyebrow" id="page-eyebrow">Executive Intelligence</div>
+            <h2 id="page-title">Industrial command center</h2>
+            <p id="page-description">
+              Real-time health, failure risk, maintenance workload, and safety exposure across Saudi industrial operations.
+            </p>
+            <div class="hero-actions">
+              <button class="primary-button">Request demo</button>
+              <button class="secondary-button">View case studies</button>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="device desktop">
+              <div class="device-top">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <div class="device-brand">Kashef Ai</div>
+              </div>
+              <div class="hero-kicker">Size and simulate industrial resilience fast</div>
+              <div class="hero-copy">Premium predictive maintenance intelligence for factories of every size.</div>
+              <div class="hero-panels">
+                <div class="mini-card active">Machine Health</div>
+                <div class="mini-card">Control center</div>
+                <div class="mini-card">Case studies</div>
+              </div>
+              <div class="hero-icons">
+                <div class="icon-pill">Assets</div>
+                <div class="icon-pill">Anomalies</div>
+                <div class="icon-pill">Work orders</div>
+                <div class="icon-pill">Safety</div>
+              </div>
+            </div>
+            <div class="device mobile">
+              <div class="device-top">
+                <div class="mobile-notch"></div>
+              </div>
+              <div class="mobile-title">Case studies</div>
+              <div class="mobile-stack">
+                <div class="mobile-card">Compressor stability</div>
+                <div class="mobile-card">Cooling water risk</div>
+                <div class="mobile-card">Asset lifecycle</div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section id="content" class="content"></section>
+      </main>
+    </div>
+
+    <script>
+const translations = {
+  en: {
+    lang: "en",
+    dir: "ltr",
+    topbar: {
+      projectLabel: "Project",
+      projectValue: "SaaS Website",
+      industryLabel: "Industry",
+      industryValue: "Engineering",
+      themeDark: "Dark",
+      themeLight: "Light",
+    },
+    shell: {
+      eyebrow: "Saudi Industrial AI",
+      brand: "Kashef Ai",
+      brandDesc: "Predictive maintenance, asset intelligence, and safety oversight for industrial operations.",
+      siteLabel: "Active Site",
+      siteName: "Riyadh Metals Factory",
+      siteDesc: "Localization-ready, multi-tenant, scalable industrial deployment profile.",
+    },
+    nav: {
+      dashboard: "Dashboard",
+      assets: "Assets",
+      machineHealth: "Machine Health",
+      workOrders: "Work Orders",
+      incidents: "Incidents & RCA",
+      safety: "Safety",
+      admin: "Settings",
+    },
+    heroButtons: {
+      primary: "Request demo",
+      secondary: "View case studies",
+    },
+    heroDevice: {
+      kicker: "Size and simulate industrial resilience fast",
+      copy: "Premium predictive maintenance intelligence for factories of every size.",
+      panel1: "Machine Health",
+      panel2: "Control center",
+      panel3: "Case studies",
+      pill1: "Assets",
+      pill2: "Anomalies",
+      pill3: "Work orders",
+      pill4: "Safety",
+      mobileTitle: "Case studies",
+      mobile1: "Compressor stability",
+      mobile2: "Cooling water risk",
+      mobile3: "Asset lifecycle",
+    },
+    pages: {
+      dashboard: {
+        eyebrow: "Executive Intelligence",
+        title: "Industrial command center",
+        description:
+          "Real-time health, failure risk, maintenance workload, and safety exposure across Saudi industrial operations.",
+      },
+      assets: {
+        eyebrow: "Asset Registry",
+        title: "Factories, lines, and equipment intelligence",
+        description:
+          "Unified operational view across plants, production lines, criticality classes, machine health, and failure risk.",
+      },
+      machineHealth: {
+        eyebrow: "Machine Health Intelligence",
+        title: "Fleet health and anomaly posture",
+        description:
+          "Dedicated health view for reliability teams to compare asset condition, anomaly exposure, and predictive urgency.",
+      },
+      workOrders: {
+        eyebrow: "Maintenance Operations",
+        title: "Work orders and predictive action flow",
+        description:
+          "Generate, assign, track, and close maintenance work with SLA, downtime impact, and priority visibility.",
+      },
+      incidents: {
+        eyebrow: "Incident & RCA",
+        title: "Failure analysis and root-cause intelligence",
+        description:
+          "Correlate sensor behavior, incident history, technician notes, and operational context to explain probable causes.",
+      },
+      safety: {
+        eyebrow: "Safety Intelligence",
+        title: "Operational safety exposure",
+        description:
+          "Monitor risk combinations between machine degradation, operational thresholds, and worker exposure scenarios.",
+      },
+      admin: {
+        eyebrow: "Admin Settings",
+        title: "Platform configuration",
+        description:
+          "Manage thresholds, scoring rules, Saudi localization settings, language support, and notification policies.",
+      },
+    },
+    dashboard: {
+      stats: [
+        ["Total assets", "4"],
+        ["Healthy assets", "2"],
+        ["Assets at risk", "2"],
+        ["Critical alerts", "1"],
+      ],
+      riskTitle: "Asset risk register",
+      riskSubtitle: "Health, failure likelihood, and criticality for key equipment.",
+      riskCols: ["Asset", "Status", "Criticality", "Health", "Failure risk"],
+      assets: [
+        ["Primary Air Compressor", "warning", "critical", "66%", "71%"],
+        ["Conveyor Motor 12", "healthy", "high", "86%", "32%"],
+        ["Cooling Water Pump 7", "critical", "critical", "54%", "88%"],
+        ["Exhaust Fan 4", "healthy", "medium", "84%", "28%"],
+      ],
+      hotspotsTitle: "Risk hotspots",
+      hotspotsSubtitle: "Plant-level areas requiring immediate leadership attention.",
+      hotspots: [
+        ["Utilities Plant", "Cooling Water Pump 7", "Pressure instability, vibration growth, and active safety escalation."],
+        ["Casting Plant", "Primary Air Compressor", "Thermal drift, due maintenance window, and rising power draw."],
+      ],
+      economicsTitle: "Maintenance economics",
+      economicsSubtitle: "Operational and financial performance indicators.",
+      economics: [["MTBF", "412h"], ["MTTR", "5.6h"], ["Downtime hours", "7h"]],
+      predictionsTitle: "Predictions",
+      predictionsSubtitle: "Short-horizon failure outlook from the explainable AI layer.",
+      predictions: [["Next 7 days", "1 predicted failure"], ["Next 30 days", "2 predicted failures"], ["Plant health index", "72.5%"]],
+      workloadTitle: "Forecasted workload",
+      workloadSubtitle: "Planned versus predictive maintenance volume.",
+      workload: [["W17", 5, 2], ["W18", 4, 3], ["W19", 6, 4]],
+    },
+    assetsPage: {
+      tableTitle: "Asset list",
+      tableSubtitle: "Machine inventory with predictive health context.",
+      cols: ["Code", "Asset", "Category", "Status", "Health", "Failure risk"],
+      rows: [
+        ["PMP-07", "Cooling Water Pump 7", "Pumping", "critical", "54%", "88%"],
+        ["CMP-01", "Primary Air Compressor", "Compression", "warning", "66%", "71%"],
+        ["CNV-12", "Conveyor Motor 12", "Material Handling", "healthy", "86%", "32%"],
+      ],
+      metadataTitle: "Asset metadata",
+      metadataSubtitle: "Selected asset detail for Cooling Water Pump 7.",
+      metadata: [
+        ["Code", "PMP-07"],
+        ["Criticality", "critical"],
+        ["Status", "critical"],
+        ["Manufacturer", "Grundfos"],
+        ["Model", "CRN 64"],
+        ["Downtime cost / hour", "SAR 4200"],
+      ],
+      signalsTitle: "Latest operating signals",
+      signalsSubtitle: "Most recent sensor snapshot from the ingestion layer.",
+      signals: [
+        ["Temperature", "84.6 C"],
+        ["Vibration", "5.28 mm/s"],
+        ["Pressure", "7.12 bar"],
+        ["Humidity", "43.5%"],
+        ["Runtime hours", "5441"],
+        ["Power", "129.4 kW"],
+      ],
+      aiTitle: "AI recommendations",
+      aiSubtitle: "Explainable actions generated by the v1 intelligence engine.",
+      recommendations: [
+        "Create an immediate inspection work order and verify rotating component condition.",
+        "Reserve outage capacity within 30 days and prepare spare parts for replacement.",
+        "Escalate to HSE review and restrict manual intervention until controls are verified.",
+      ],
+      causesLabel: "Probable causes",
+      causes: [
+        "Progressive bearing wear or misalignment is likely contributing to the failure pattern.",
+        "Hydraulic restriction or seal degradation may be reducing pressure stability.",
+        "Recent corrective history indicates the issue may be recurring rather than isolated.",
+      ],
+    },
+    machineHealth: {
+      title: "Health by asset",
+      subtitle: "Fleet-wide machine health comparison for reliability and maintenance teams.",
+      items: [
+        ["Cooling Water Pump 7", "critical", "critical", 54, 88],
+        ["Primary Air Compressor", "warning", "critical", 66, 71],
+        ["Conveyor Motor 12", "healthy", "high", 86, 32],
+      ],
+      healthLabel: "Health",
+      riskLabel: "Risk",
+    },
+    workOrders: {
+      title: "Active work orders",
+      subtitle: "Predictive and preventive execution backlog for the maintenance team.",
+      cols: ["Title", "Status", "Priority", "Assigned to", "Downtime impact"],
+      rows: [
+        ["Investigate abnormal vibration on Cooling Water Pump 7", "in_progress", "critical", "Ahmed Al-Qahtani", "3.5h"],
+        ["Review compressor heat increase and lubrication cycle", "open", "high", "Maha Al-Dosari", "1.2h"],
+      ],
+    },
+    incidents: {
+      one: {
+        title: "Pump discharge instability",
+        subtitle: "Pressure fluctuation and vibration spike detected during early shift.",
+        severity: "high",
+        status: "open",
+        summary:
+          "The incident pattern aligns most strongly with seal wear and progressive bearing degradation. Hydraulic stress likely amplified the failure mode.",
+      },
+      two: {
+        title: "Compressor thermal drift",
+        subtitle: "Sustained heat rise above seasonal operating baseline.",
+        severity: "medium",
+        status: "investigating",
+        summary: "Heat rise indicates lubrication inefficiency or reduced cooling performance under load.",
+      },
+    },
+    safety: {
+      one: {
+        title: "Pump degradation linked to slip and hot-surface exposure",
+        subtitle: "Risk matrix 5x4",
+        severity: "critical",
+        status: "active",
+        summary:
+          "The safety scoring engine elevated this alert because current degradation patterns intersect with elevated operator exposure.",
+      },
+      two: {
+        title: "Compressor heat trend may increase operator exposure during manual inspection",
+        subtitle: "Risk matrix 4x3",
+        severity: "high",
+        status: "active",
+        summary:
+          "Thermal drift during manual inspection windows raises HSE exposure if the operating envelope is not corrected.",
+      },
+    },
+    admin: {
+      securityTitle: "Security posture",
+      securitySubtitle: "High-level enterprise controls for industrial SaaS data protection.",
+      securityItems: [
+        ["Tenant isolation", "Every business entity is modeled under tenant ownership."],
+        ["Access control", "RBAC for executives, engineers, technicians, and auditors."],
+        ["Deployment hardening", "Trusted hosts, CORS control, security headers, HTTPS-ready settings."],
+      ],
+      scaleTitle: "Scale profile",
+      scaleSubtitle: "Compatible with all scales of industrial business.",
+      scaleItems: [
+        ["Small factories", "Single-site deployment with limited asset fleets."],
+        ["Multi-plant operators", "Shared dashboards across lines and plants."],
+        ["Industrial groups", "Tenant-based separation across companies or business units."],
+      ],
+    },
+    status: {
+      healthy: "healthy",
+      active: "active",
+      open: "open",
+      warning: "warning",
+      high: "high",
+      medium: "medium",
+      critical: "critical",
+      in_progress: "in progress",
+      investigating: "investigating",
+      low: "low",
+    },
+  },
+  ar: {
+    lang: "ar",
+    dir: "rtl",
+    topbar: {
+      projectLabel: "المشروع",
+      projectValue: "منصة تشغيلية",
+      industryLabel: "القطاع",
+      industryValue: "القطاع الصناعي",
+      themeDark: "داكن",
+      themeLight: "فاتح",
+    },
+    shell: {
+      eyebrow: "ذكاء صناعي للمملكة",
+      brand: "Kashef Ai",
+      brandDesc: "منصة للصيانة التنبؤية وذكاء الأصول وإدارة المخاطر التشغيلية في المنشآت الصناعية.",
+      siteLabel: "الموقع النشط",
+      siteName: "مصنع الرياض للمعادن",
+      siteDesc: "منصة مؤسسية قابلة للتوطين ومتعددة المستأجرين ومناسبة للمصانع والمجمعات الصناعية بمختلف أحجامها.",
+    },
+    nav: {
+      dashboard: "لوحة القيادة",
+      assets: "الأصول",
+      machineHealth: "صحة الآلات",
+      workOrders: "أوامر العمل",
+      incidents: "الحوادث وتحليل الأسباب",
+      safety: "السلامة",
+      admin: "الإعدادات",
+    },
+    heroButtons: {
+      primary: "اطلب عرضاً",
+      secondary: "استعرض حالات الاستخدام",
+    },
+    heroDevice: {
+      kicker: "راقب مرونة التشغيل الصناعي واستبق الأعطال بذكاء",
+      copy: "حل متقدم موجّه لفرق التشغيل والاعتمادية والصيانة والسلامة في البيئة الصناعية.",
+      panel1: "صحة الآلات",
+      panel2: "مركز التحكم",
+      panel3: "حالات الاستخدام",
+      pill1: "الأصول",
+      pill2: "الانحرافات",
+      pill3: "أوامر العمل",
+      pill4: "السلامة",
+      mobileTitle: "حالات الاستخدام",
+      mobile1: "استقرار الضاغط",
+      mobile2: "مخاطر مياه التبريد",
+      mobile3: "دورة حياة الأصل",
+    },
+    pages: {
+      dashboard: {
+        eyebrow: "ذكاء تنفيذي",
+        title: "مركز القيادة الصناعية",
+        description: "رؤية تنفيذية لحظية لصحة المعدات ومخاطر الأعطال وأعباء الصيانة والمخاطر المرتبطة بالسلامة عبر العمليات الصناعية في المملكة.",
+      },
+      assets: {
+        eyebrow: "سجل الأصول",
+        title: "إدارة الأصول والمعدات",
+        description: "رؤية تشغيلية موحدة عبر المصانع وخطوط الإنتاج ومستويات الأهمية التشغيلية وصحة الآلات ومخاطر الأعطال.",
+      },
+      machineHealth: {
+        eyebrow: "ذكاء صحة الآلات",
+        title: "صحة الأسطول والانحرافات التشغيلية",
+        description: "واجهة مخصصة لفرق الاعتمادية لمقارنة حالة الأصول ورصد الانحرافات التشغيلية وتحديد أولويات الصيانة التنبؤية.",
+      },
+      workOrders: {
+        eyebrow: "عمليات الصيانة",
+        title: "أوامر العمل وتدفق التنفيذ",
+        description: "إنشاء أوامر العمل وتعيينها ومتابعتها وإغلاقها مع وضوح مستوى الخدمة وتأثير التوقف وأولوية التنفيذ.",
+      },
+      incidents: {
+        eyebrow: "الحوادث وتحليل الأسباب",
+        title: "تحليل الأعطال وذكاء السبب الجذري",
+        description: "ربط بيانات الحساسات وسجل الحوادث وملاحظات الفنيين والسياق التشغيلي لتفسير الأسباب المحتملة بصورة واضحة.",
+      },
+      safety: {
+        eyebrow: "ذكاء السلامة",
+        title: "المخاطر التشغيلية المرتبطة بالسلامة",
+        description: "مراقبة العلاقة بين تدهور المعدات وحدود التشغيل والتعرضات البشرية للمخاطر في الوقت المناسب.",
+      },
+      admin: {
+        eyebrow: "إعدادات الإدارة",
+        title: "إعدادات المنصة",
+        description: "إدارة حدود التشغيل وقواعد التقييم وإعدادات التوطين للمملكة ودعم اللغة وسياسات الإشعارات.",
+      },
+    },
+    dashboard: {
+      stats: [
+        ["إجمالي الأصول", "4"],
+        ["الأصول السليمة", "2"],
+        ["الأصول المعرضة للمخاطر", "2"],
+        ["التنبيهات الحرجة", "1"],
+      ],
+      riskTitle: "سجل مخاطر الأصول",
+      riskSubtitle: "الصحة واحتمالية العطل والأهمية التشغيلية للمعدات الرئيسية.",
+      riskCols: ["الأصل", "الحالة", "الأهمية", "الصحة", "مخاطر العطل"],
+      assets: [
+        ["ضاغط الهواء الرئيسي", "warning", "critical", "66%", "71%"],
+        ["محرك الناقل 12", "healthy", "high", "86%", "32%"],
+        ["مضخة مياه التبريد 7", "critical", "critical", "54%", "88%"],
+        ["مروحة العادم 4", "healthy", "medium", "84%", "28%"],
+      ],
+      hotspotsTitle: "بؤر المخاطر",
+      hotspotsSubtitle: "مناطق على مستوى المصنع تتطلب انتباه الإدارة التشغيلية بشكل فوري.",
+      hotspots: [
+        ["محطة المرافق", "مضخة مياه التبريد 7", "عدم استقرار الضغط وارتفاع الاهتزاز مع وجود تصعيد سلامة نشط."],
+        ["مصنع الصب", "ضاغط الهواء الرئيسي", "انحراف حراري واقتراب موعد الصيانة وارتفاع استهلاك الطاقة."],
+      ],
+      economicsTitle: "اقتصاديات الصيانة",
+      economicsSubtitle: "مؤشرات الأداء التشغيلي والمالي.",
+      economics: [["متوسط الزمن بين الأعطال", "412 ساعة"], ["متوسط زمن الإصلاح", "5.6 ساعة"], ["إجمالي ساعات التوقف", "7 ساعات"]],
+      predictionsTitle: "التنبؤات",
+      predictionsSubtitle: "نظرة قصيرة المدى لاحتمالات الأعطال من محرك الذكاء التفسيري.",
+      predictions: [["خلال 7 أيام", "عطل متوقع واحد"], ["خلال 30 يوماً", "عطلان متوقعان"], ["مؤشر صحة المصنع", "72.5%"]],
+      workloadTitle: "عبء العمل المتوقع",
+      workloadSubtitle: "الصيانة المخططة مقابل الصيانة التنبؤية.",
+      workload: [["الأسبوع 17", 5, 2], ["الأسبوع 18", 4, 3], ["الأسبوع 19", 6, 4]],
+    },
+    assetsPage: {
+      tableTitle: "قائمة الأصول",
+      tableSubtitle: "سجل الأصول مع سياق تنبؤي لصحة المعدات.",
+      cols: ["الرمز", "الأصل", "الفئة", "الحالة", "الصحة", "مخاطر العطل"],
+      rows: [
+        ["PMP-07", "مضخة مياه التبريد 7", "الضخ", "critical", "54%", "88%"],
+        ["CMP-01", "ضاغط الهواء الرئيسي", "الضغط", "warning", "66%", "71%"],
+        ["CNV-12", "محرك الناقل 12", "مناولة المواد", "healthy", "86%", "32%"],
+      ],
+      metadataTitle: "بيانات الأصل",
+      metadataSubtitle: "تفاصيل الأصل المحدد لمضخة مياه التبريد 7.",
+      metadata: [
+        ["الرمز", "PMP-07"],
+        ["الأهمية", "critical"],
+        ["الحالة", "critical"],
+        ["الشركة المصنعة", "Grundfos"],
+        ["الطراز", "CRN 64"],
+        ["تكلفة التوقف / ساعة", "4200 ريال سعودي"],
+      ],
+      signalsTitle: "أحدث الإشارات التشغيلية",
+      signalsSubtitle: "أحدث قراءة واردة من طبقة إدخال الحساسات.",
+      signals: [
+        ["درجة الحرارة", "84.6 م"],
+        ["الاهتزاز", "5.28 مم/ث"],
+        ["الضغط", "7.12 بار"],
+        ["الرطوبة", "43.5%"],
+        ["ساعات التشغيل", "5441"],
+        ["القدرة", "129.4 كيلوواط"],
+      ],
+      aiTitle: "توصيات الذكاء الاصطناعي",
+      aiSubtitle: "توصيات تفسيرية صادرة من محرك الذكاء في الإصدار الأول.",
+      recommendations: [
+        "إنشاء أمر فحص فوري والتحقق من حالة المكونات الدوارة.",
+        "حجز نافذة توقف خلال 30 يوماً وتجهيز قطع الغيار اللازمة للاستبدال.",
+        "تصعيد الحالة إلى فريق السلامة وتقييد التدخل اليدوي حتى يتم التحقق من الضوابط.",
+      ],
+      causesLabel: "الأسباب المحتملة",
+      causes: [
+        "من المحتمل أن يكون تآكل المحامل أو عدم المحاذاة مساهماً في نمط العطل.",
+        "قد يؤدي تقييد الجريان أو تدهور مانع التسرب إلى انخفاض استقرار الضغط.",
+        "يشير السجل التصحيحي الأخير إلى أن المشكلة متكررة وليست معزولة.",
+      ],
+    },
+    machineHealth: {
+      title: "صحة الأصول على مستوى الأسطول",
+      subtitle: "مقارنة صحة الآلات على مستوى الأسطول لفرق الاعتمادية والصيانة.",
+      items: [
+        ["مضخة مياه التبريد 7", "critical", "critical", 54, 88],
+        ["ضاغط الهواء الرئيسي", "warning", "critical", 66, 71],
+        ["محرك الناقل 12", "healthy", "high", 86, 32],
+      ],
+      healthLabel: "الصحة",
+      riskLabel: "المخاطر",
+    },
+    workOrders: {
+      title: "أوامر العمل النشطة",
+      subtitle: "قائمة التنفيذ للصيانة التنبؤية والوقائية لفريق الصيانة.",
+      cols: ["العنوان", "الحالة", "الأولوية", "المسؤول", "تأثير التوقف"],
+      rows: [
+        ["التحقق من الاهتزاز غير الطبيعي في مضخة مياه التبريد 7", "in_progress", "critical", "أحمد القحطاني", "3.5 ساعة"],
+        ["مراجعة ارتفاع حرارة الضاغط ودورة التشحيم", "open", "high", "مها الدوسري", "1.2 ساعة"],
+      ],
+    },
+    incidents: {
+      one: {
+        title: "عدم استقرار تصريف المضخة",
+        subtitle: "تم رصد تقلب في الضغط وارتفاع في الاهتزاز خلال بداية الوردية.",
+        severity: "high",
+        status: "open",
+        summary: "يشير نمط الحادث بشكل كبير إلى تدهور مانع التسرب وتدرج تآكل المحامل، مع تأثير إضافي ناتج عن الإجهاد الهيدروليكي.",
+      },
+      two: {
+        title: "انحراف حراري في الضاغط",
+        subtitle: "ارتفاع مستمر في الحرارة فوق خط التشغيل الموسمي المعتاد.",
+        severity: "medium",
+        status: "investigating",
+        summary: "يشير الارتفاع الحراري إلى ضعف التشحيم أو تراجع كفاءة التبريد تحت الحمل.",
+      },
+    },
+    safety: {
+      one: {
+        title: "تدهور المضخة مرتبط بخطر الانزلاق والأسطح الساخنة",
+        subtitle: "مصفوفة المخاطر 5×4",
+        severity: "critical",
+        status: "active",
+        summary: "تم رفع هذا التنبيه لأن نمط التدهور الحالي يتقاطع مع مستوى تعرض تشغيلي مرتفع للعاملين.",
+      },
+      two: {
+        title: "اتجاه حرارة الضاغط قد يزيد تعرض المشغلين أثناء الفحص اليدوي",
+        subtitle: "مصفوفة المخاطر 4×3",
+        severity: "high",
+        status: "active",
+        summary: "الانحراف الحراري أثناء نوافذ الفحص اليدوي يرفع التعرض لمخاطر السلامة إذا لم يتم تصحيح حدود التشغيل.",
+      },
+    },
+    admin: {
+      securityTitle: "الوضع الأمني",
+      securitySubtitle: "ضوابط مؤسسية عالية المستوى لحماية بيانات المنصة الصناعية.",
+      securityItems: [
+        ["عزل المستأجرين", "كل كيان أعمال يتم نمذجته تحت ملكية مستأجر مستقل."],
+        ["التحكم في الوصول", "صلاحيات مبنية على الأدوار للمديرين والمهندسين والفنيين والمدققين."],
+        ["تقوية النشر", "مضيفون موثوقون وتحكم في CORS ورؤوس أمان وإعدادات جاهزة لـ HTTPS."],
+      ],
+      scaleTitle: "ملف التوسع",
+      scaleSubtitle: "متوافق مع مختلف أحجام الأعمال والمنشآت الصناعية.",
+      scaleItems: [
+        ["المصانع الصغيرة", "نشر في موقع واحد مع عدد محدود من الأصول."],
+        ["المشغلون متعددو المواقع", "لوحات موحدة عبر الخطوط والمصانع."],
+        ["المجموعات الصناعية", "فصل قائم على المستأجر بين الشركات أو الوحدات التشغيلية."],
+      ],
+    },
+    status: {
+      healthy: "سليم",
+      active: "نشط",
+      open: "مفتوح",
+      warning: "تحذير",
+      high: "مرتفع",
+      medium: "متوسط",
+      critical: "حرج",
+      in_progress: "قيد التنفيذ",
+      investigating: "قيد التحليل",
+      low: "منخفض",
+    },
+  },
+};
+
+let currentLocale = "en";
+let currentPage = "dashboard";
+let currentTheme = localStorage.getItem("kashef-theme") || "dark";
+
+const nav = document.getElementById("nav");
+const content = document.getElementById("content");
+const eyebrow = document.getElementById("page-eyebrow");
+const title = document.getElementById("page-title");
+const description = document.getElementById("page-description");
+
+function t() {
+  return translations[currentLocale];
+}
+
+function badge(value) {
+  const label = t().status[value] ?? value;
+  return `<span class="badge ${String(value).toLowerCase()}">${label}</span>`;
+}
+
+function panel(titleText, subtitle, inner) {
+  return `<section class="panel"><h3>${titleText}</h3><p class="subtitle">${subtitle || ""}</p>${inner}</section>`;
+}
+
+function renderDashboard() {
+  const copy = t().dashboard;
+  const stats = `
+    <div class="stats-grid">
+      ${copy.stats
+        .map(([label, value]) => `<div class="stat-card"><div class="label">${label}</div><div class="value">${value}</div></div>`)
+        .join("")}
+    </div>
+  `;
+
+  const riskTable = `
+    <table class="table">
+      <thead><tr>${copy.riskCols.map((column) => `<th>${column}</th>`).join("")}</tr></thead>
+      <tbody>
+        ${copy.assets
+          .map(
+            ([name, status, criticality, health, risk]) =>
+              `<tr><td>${name}</td><td>${badge(status)}</td><td>${badge(criticality)}</td><td>${health}</td><td>${risk}</td></tr>`,
+          )
+          .join("")}
+      </tbody>
+    </table>
+  `;
+
+  const hotspots = `
+    <div class="card-list">
+      ${copy.hotspots
+        .map(
+          ([plant, asset, reason]) =>
+            `<div class="item-card"><strong>${asset}</strong><div class="eyebrow">${plant}</div><p>${reason}</p></div>`,
+        )
+        .join("")}
+    </div>
+  `;
+
+  const workload = `
+    <div class="list-tight">
+      ${copy.workload
+        .map(
+          ([week, planned, predictive]) =>
+            `<div class="item-card"><strong>${week}</strong><div>${planned} | ${predictive}</div><div class="metric-bar"><span style="width:${(planned + predictive) * 9}%"></span></div></div>`,
+        )
+        .join("")}
+    </div>
+  `;
+
+  const economics = `<div class="list-tight">${copy.economics.map(([k, v]) => `<div class="item-card"><strong>${k}</strong>${v}</div>`).join("")}</div>`;
+  const predictions = `<div class="list-tight">${copy.predictions.map(([k, v]) => `<div class="item-card"><strong>${k}</strong>${v}</div>`).join("")}</div>`;
+
+  return `
+    ${stats}
+    <div class="two-col">
+      ${panel(copy.riskTitle, copy.riskSubtitle, riskTable)}
+      ${panel(copy.hotspotsTitle, copy.hotspotsSubtitle, hotspots)}
+    </div>
+    <div class="three-col">
+      ${panel(copy.economicsTitle, copy.economicsSubtitle, economics)}
+      ${panel(copy.predictionsTitle, copy.predictionsSubtitle, predictions)}
+      ${panel(copy.workloadTitle, copy.workloadSubtitle, workload)}
+    </div>
+  `;
+}
+
+function renderAssets() {
+  const copy = t().assetsPage;
+  const table = `
+    <table class="table">
+      <thead><tr>${copy.cols.map((column) => `<th>${column}</th>`).join("")}</tr></thead>
+      <tbody>
+        ${copy.rows
+          .map(
+            ([code, asset, category, status, health, risk]) =>
+              `<tr><td>${code}</td><td>${asset}</td><td>${category}</td><td>${badge(status)}</td><td>${health}</td><td>${risk}</td></tr>`,
+          )
+          .join("")}
+      </tbody>
+    </table>
+  `;
+
+  const metadata = `
+    <div class="split">
+      ${copy.metadata
+        .map(([k, v]) => `<div class="item-card"><strong>${k}</strong>${k.includes("الأهمية") || k === "Criticality" || k.includes("الحالة") || k === "Status" ? badge(v) : v}</div>`)
+        .join("")}
+    </div>
+  `;
+
+  const signals = `
+    <div class="split">
+      ${copy.signals.map(([k, v]) => `<div class="item-card"><strong>${k}</strong>${v}</div>`).join("")}
+    </div>
+  `;
+
+  const ai = `
+    <div class="card-list">
+      ${copy.recommendations.map((item) => `<div class="item-card"><strong>${copy.aiTitle}</strong>${item}</div>`).join("")}
+      <div class="item-card"><strong>${copy.causesLabel}</strong>${copy.causes.join(" ")}</div>
+    </div>
+  `;
+
+  return `
+    ${panel(copy.tableTitle, copy.tableSubtitle, table)}
+    <div class="two-col">
+      ${panel(copy.metadataTitle, copy.metadataSubtitle, metadata)}
+      ${panel(copy.signalsTitle, copy.signalsSubtitle, signals)}
+    </div>
+    ${panel(copy.aiTitle, copy.aiSubtitle, ai)}
+  `;
+}
+
+function renderMachineHealth() {
+  const copy = t().machineHealth;
+  return panel(
+    copy.title,
+    copy.subtitle,
+    `
+      <div class="card-list">
+        ${copy.items
+          .map(
+            ([name, status, criticality, health, risk]) =>
+              `<div class="item-card"><strong>${name}</strong>${badge(status)} ${badge(criticality)}<div class="metric-bar"><span style="width:${health}%"></span></div><div style="margin-top:8px">${copy.healthLabel} ${health}% | ${copy.riskLabel} ${risk}%</div></div>`,
+          )
+          .join("")}
+      </div>
+    `,
+  );
+}
+
+function renderWorkOrders() {
+  const copy = t().workOrders;
+  return panel(
+    copy.title,
+    copy.subtitle,
+    `
+      <table class="table">
+        <thead><tr>${copy.cols.map((column) => `<th>${column}</th>`).join("")}</tr></thead>
+        <tbody>
+          ${copy.rows
+            .map(
+              ([titleText, status, priority, owner, downtime]) =>
+                `<tr><td>${titleText}</td><td>${badge(status)}</td><td>${badge(priority)}</td><td>${owner}</td><td>${downtime}</td></tr>`,
+            )
+            .join("")}
+        </tbody>
+      </table>
+    `,
+  );
+}
+
+function renderIncidents() {
+  const copy = t().incidents;
+  return `
+    ${panel(copy.one.title, copy.one.subtitle, `<div class="card-list"><div class="item-card">${badge(copy.one.severity)} ${badge(copy.one.status)}<p>${copy.one.summary}</p></div></div>`)}
+    ${panel(copy.two.title, copy.two.subtitle, `<div class="card-list"><div class="item-card">${badge(copy.two.severity)} ${badge(copy.two.status)}<p>${copy.two.summary}</p></div></div>`)}
+  `;
+}
+
+function renderSafety() {
+  const copy = t().safety;
+  return `
+    <div class="two-col">
+      ${panel(copy.one.title, copy.one.subtitle, `<div class="item-card">${badge(copy.one.severity)} ${badge(copy.one.status)}<p>${copy.one.summary}</p></div>`)}
+      ${panel(copy.two.title, copy.two.subtitle, `<div class="item-card">${badge(copy.two.severity)} ${badge(copy.two.status)}<p>${copy.two.summary}</p></div>`)}
+    </div>
+  `;
+}
+
+function renderAdmin() {
+  const copy = t().admin;
+  const security = `<div class="list-tight">${copy.securityItems.map(([titleText, body]) => `<div class="item-card"><strong>${titleText}</strong>${body}</div>`).join("")}</div>`;
+  const scale = `<div class="list-tight">${copy.scaleItems.map(([titleText, body]) => `<div class="item-card"><strong>${titleText}</strong>${body}</div>`).join("")}</div>`;
+  return `
+    <div class="two-col">
+      ${panel(copy.securityTitle, copy.securitySubtitle, security)}
+      ${panel(copy.scaleTitle, copy.scaleSubtitle, scale)}
+    </div>
+  `;
+}
+
+const pageRenderers = {
+  dashboard: renderDashboard,
+  assets: renderAssets,
+  machineHealth: renderMachineHealth,
+  workOrders: renderWorkOrders,
+  incidents: renderIncidents,
+  safety: renderSafety,
+  admin: renderAdmin,
+};
+
+function updateStaticText() {
+  const copy = t();
+  document.documentElement.lang = copy.lang;
+  document.documentElement.dir = copy.dir;
+  document.body.dir = copy.dir;
+
+  document.querySelectorAll("[data-i18n]").forEach((node) => {
+    const path = node.dataset.i18n.split(".");
+    let value = copy;
+    for (const segment of path) value = value?.[segment];
+    if (typeof value === "string") node.textContent = value;
+  });
+
+  document.querySelector(".brand .eyebrow").textContent = copy.shell.eyebrow;
+  document.querySelector(".brand h1").textContent = copy.shell.brand;
+  document.querySelector(".brand p").textContent = copy.shell.brandDesc;
+  document.querySelector(".site-card .eyebrow").textContent = copy.shell.siteLabel;
+  document.querySelector(".site-card strong").textContent = copy.shell.siteName;
+  document.querySelector(".site-card p").textContent = copy.shell.siteDesc;
+
+  document.querySelector(".primary-button").textContent = copy.heroButtons.primary;
+  document.querySelector(".secondary-button").textContent = copy.heroButtons.secondary;
+
+  const hero = copy.heroDevice;
+  document.querySelector(".device-brand").textContent = copy.shell.brand;
+  document.querySelector(".hero-kicker").textContent = hero.kicker;
+  document.querySelector(".hero-copy").textContent = hero.copy;
+
+  const miniCards = document.querySelectorAll(".mini-card");
+  miniCards[0].textContent = hero.panel1;
+  miniCards[1].textContent = hero.panel2;
+  miniCards[2].textContent = hero.panel3;
+
+  const pills = document.querySelectorAll(".icon-pill");
+  pills[0].textContent = hero.pill1;
+  pills[1].textContent = hero.pill2;
+  pills[2].textContent = hero.pill3;
+  pills[3].textContent = hero.pill4;
+
+  document.querySelector(".mobile-title").textContent = hero.mobileTitle;
+  const mobileCards = document.querySelectorAll(".mobile-card");
+  mobileCards[0].textContent = hero.mobile1;
+  mobileCards[1].textContent = hero.mobile2;
+  mobileCards[2].textContent = hero.mobile3;
+
+  const themeButtons = document.querySelectorAll(".theme-button");
+  themeButtons.forEach((button) => {
+    button.textContent = button.dataset.theme === "dark" ? copy.topbar.themeDark : copy.topbar.themeLight;
+  });
+}
+
+function renderNav() {
+  const copy = t().nav;
+  const items = [
+    ["dashboard", copy.dashboard],
+    ["assets", copy.assets],
+    ["machineHealth", copy.machineHealth],
+    ["workOrders", copy.workOrders],
+    ["incidents", copy.incidents],
+    ["safety", copy.safety],
+    ["admin", copy.admin],
+  ];
+
+  nav.innerHTML = items.map(([key, label]) => `<button data-page="${key}">${label}</button>`).join("");
+}
+
+function renderPage(key) {
+  currentPage = key;
+  const pageCopy = t().pages[key];
+  eyebrow.textContent = pageCopy.eyebrow;
+  title.textContent = pageCopy.title;
+  description.textContent = pageCopy.description;
+  content.innerHTML = pageRenderers[key]();
+  [...nav.querySelectorAll("button")].forEach((button) => {
+    button.classList.toggle("active", button.dataset.page === key);
+  });
+}
+
+function setLocale(locale) {
+  currentLocale = locale;
+  updateStaticText();
+  renderNav();
+  renderPage(currentPage);
+  document.querySelectorAll(".locale-button").forEach((button) => {
+    button.classList.toggle("active", button.dataset.locale === locale);
+  });
+}
+
+function setTheme(theme) {
+  currentTheme = theme;
+  document.documentElement.dataset.theme = theme;
+  localStorage.setItem("kashef-theme", theme);
+  document.querySelectorAll(".theme-button").forEach((button) => {
+    button.classList.toggle("active", button.dataset.theme === theme);
+  });
+}
+
+nav.addEventListener("click", (event) => {
+  const button = event.target.closest("button");
+  if (!button) return;
+  renderPage(button.dataset.page);
+});
+
+document.querySelector(".locale-switch").addEventListener("click", (event) => {
+  const button = event.target.closest(".locale-button");
+  if (!button) return;
+  setLocale(button.dataset.locale);
+});
+
+document.querySelector(".theme-switch").addEventListener("click", (event) => {
+  const button = event.target.closest(".theme-button");
+  if (!button) return;
+  setTheme(button.dataset.theme);
+});
+
+setTheme(currentTheme);
+setLocale("en");
+
+</script>
+  </body>
+  </html>
