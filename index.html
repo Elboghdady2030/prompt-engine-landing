@@ -6,6 +6,8 @@
     <title>Kashef Ai</title>
     <style>
 :root {
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: "IBM Plex Sans Arabic", "Noto Sans Arabic", "SF Arabic", Tahoma, Arial, sans-serif;
   --bg: #04110d;
   --bg-soft: #071a14;
   --panel: rgba(9, 27, 21, 0.78);
@@ -88,13 +90,20 @@ body {
 
 body {
   margin: 0;
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-sans);
   color: var(--text);
   background:
     radial-gradient(circle at 20% 16%, var(--accent-glow), transparent 0 26%),
     radial-gradient(circle at 78% 28%, rgba(52, 211, 153, 0.12), transparent 0 22%),
     linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%);
   overflow-x: hidden;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 html[data-theme="light"] body {
@@ -813,6 +822,93 @@ html[data-theme="light"] .item-card {
   line-height: 1.7;
 }
 
+.showcase-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.showcase-button,
+.showcase-chip {
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+}
+
+.showcase-button {
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 180ms ease;
+}
+
+.showcase-button:hover,
+.showcase-button.active {
+  color: var(--text);
+  border-color: var(--line-strong);
+  background: linear-gradient(180deg, rgba(52, 211, 153, 0.16), rgba(52, 211, 153, 0.08));
+}
+
+.showcase-layout {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.showcase-summary {
+  padding: 22px;
+  border-radius: 26px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle at top right, rgba(52, 211, 153, 0.16), transparent 0 34%),
+    linear-gradient(180deg, rgba(10, 30, 23, 0.92), rgba(7, 21, 17, 0.88));
+}
+
+html[data-theme="light"] .showcase-summary {
+  background:
+    radial-gradient(circle at top right, rgba(20, 184, 166, 0.1), transparent 0 36%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(242, 248, 245, 0.98));
+  border-color: rgba(15, 118, 110, 0.12);
+}
+
+.showcase-summary strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 20px;
+  color: var(--text);
+}
+
+.showcase-summary p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.showcase-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.showcase-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+html[data-theme="light"] .showcase-button,
+html[data-theme="light"] .showcase-chip {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(15, 118, 110, 0.12);
+}
+
 .metric-bar {
   height: 10px;
   border-radius: 999px;
@@ -839,8 +935,8 @@ html[data-theme="light"] .metric-bar {
   margin-top: 16px;
 }
 
-html[dir="rtl"] body {
-  font-family: "SF Arabic", "IBM Plex Sans Arabic", "Noto Sans Arabic", Tahoma, Arial, sans-serif;
+html[lang="ar"] {
+  --font-sans: var(--font-arabic);
 }
 
 html[dir="rtl"] .shell {
@@ -944,6 +1040,12 @@ html[dir="rtl"] .three-col {
   direction: rtl;
 }
 
+html[dir="rtl"] .showcase-switch,
+html[dir="rtl"] .showcase-layout,
+html[dir="rtl"] .showcase-chip-row {
+  direction: rtl;
+}
+
 html[dir="rtl"] .hero h2 {
   font-size: 72px;
   line-height: 1.04;
@@ -1008,7 +1110,8 @@ html[dir="rtl"] .badge {
   .stats-grid,
   .two-col,
   .three-col,
-  .split {
+  .split,
+  .showcase-layout {
     grid-template-columns: 1fr;
   }
 }
@@ -1051,7 +1154,6 @@ html[dir="rtl"] .badge {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-
 </style>
   </head>
   <body>
@@ -1170,7 +1272,7 @@ const translations = {
       assets: "Assets",
       machineHealth: "Machine Health",
       workOrders: "Work Orders",
-      incidents: "Incidents & RCA",
+      incidents: "Incidents <script src="./script.js?v=11"></script> RCA",
       safety: "Safety",
       admin: "Settings",
     },
@@ -1219,7 +1321,7 @@ const translations = {
           "Generate, assign, track, and close maintenance work with SLA, downtime impact, and priority visibility.",
       },
       incidents: {
-        eyebrow: "Incident & RCA",
+        eyebrow: "Incident <script src="./script.js?v=11"></script> RCA",
         title: "Failure analysis and root-cause intelligence",
         description:
           "Correlate sensor behavior, incident history, technician notes, and operational context to explain probable causes.",
@@ -1268,6 +1370,51 @@ const translations = {
       workloadTitle: "Forecasted workload",
       workloadSubtitle: "Planned versus predictive maintenance volume.",
       workload: [["W17", 5, 2], ["W18", 4, 3], ["W19", 6, 4]],
+      showcaseTitle: "Solution by scale",
+      showcaseSubtitle: "Switch between three project profiles to understand how Kashef Ai fits different industrial environments.",
+      showcaseTabs: {
+        small: "Small factory",
+        mid: "Multi-plant operator",
+        enterprise: "Industrial group",
+      },
+      showcases: {
+        small: {
+          plant: "Food Packaging Plant | Jeddah",
+          fit: "Single site | 38 assets | 1 maintenance team",
+          summary:
+            "Focused deployment for one factory that needs predictive visibility without enterprise overhead. The platform centralizes work orders, alerts, and machine health for a lean operations team.",
+          outcomes: [
+            ["Primary objective", "Reduce reactive stoppages on filling, sealing, and chilled utility equipment."],
+            ["Executive view", "Daily plant health, downtime cost, and next 7-day maintenance outlook."],
+            ["Operational flow", "One supervisor assigns work orders directly from anomaly alerts and sensor thresholds."],
+          ],
+          modules: ["Asset registry", "Machine health", "Predictive work orders", "Downtime dashboard"],
+        },
+        mid: {
+          plant: "Building Materials Operator | Riyadh + Dammam",
+          fit: "2 plants | 126 assets | reliability + maintenance leadership",
+          summary:
+            "Shared command center for a growing operator that needs plant-to-plant comparison, maintenance planning, and explainable failure prioritization across mixed asset classes.",
+          outcomes: [
+            ["Primary objective", "Standardize predictive maintenance across utilities, conveyors, compressors, and motors."],
+            ["Executive view", "Compare plant risk hotspots, MTBF, MTTR, and forecasted workload by site."],
+            ["Operational flow", "Reliability engineers review AI-ranked risk, then push work orders to each plant team."],
+          ],
+          modules: ["Multi-plant dashboards", "Root-cause analysis", "Spare-parts planning", "Safety escalation rules"],
+        },
+        enterprise: {
+          plant: "Industrial Group Deployment | KSA Region",
+          fit: "8 plants | 640+ assets | centralized governance + local execution",
+          summary:
+            "Multi-tenant architecture for large industrial groups that need governance, data separation, executive oversight, and localized operational decisions at each site.",
+          outcomes: [
+            ["Primary objective", "Create group-wide reliability governance while preserving plant-level accountability."],
+            ["Executive view", "Tenant-level risk heatmap, cost-of-downtime trends, and site-by-site performance exposure."],
+            ["Operational flow", "Corporate operations sets policy, while each plant manages alerts, work orders, and HSE actions locally."],
+          ],
+          modules: ["Tenant isolation", "Executive intelligence", "Cross-site benchmarking", "Localized Arabic / English workflows"],
+        },
+      },
     },
     assetsPage: {
       tableTitle: "Asset list",
@@ -1511,6 +1658,51 @@ const translations = {
       workloadTitle: "عبء العمل المتوقع",
       workloadSubtitle: "الصيانة المخططة مقابل الصيانة التنبؤية.",
       workload: [["الأسبوع 17", 5, 2], ["الأسبوع 18", 4, 3], ["الأسبوع 19", 6, 4]],
+      showcaseTitle: "الحل حسب حجم المشروع",
+      showcaseSubtitle: "بدّل بين ثلاثة نماذج تشغيلية لفهم كيفية ملاءمة Kashef Ai لبيئات صناعية مختلفة.",
+      showcaseTabs: {
+        small: "مصنع صغير",
+        mid: "مشغل متعدد المواقع",
+        enterprise: "مجموعة صناعية",
+      },
+      showcases: {
+        small: {
+          plant: "مصنع تعبئة غذائية | جدة",
+          fit: "موقع واحد | 38 أصلاً | فريق صيانة واحد",
+          summary:
+            "نشر مركز وسريع لمصنع واحد يحتاج إلى رؤية تنبؤية واضحة دون تعقيد مؤسسي كبير. المنصة توحد أوامر العمل والتنبيهات وصحة الأصول لفريق تشغيل رشيق.",
+          outcomes: [
+            ["الهدف الرئيسي", "خفض التوقفات التفاعلية في خطوط التعبئة والإغلاق ومعدات الخدمات المبردة."],
+            ["الرؤية التنفيذية", "صحة المصنع اليومية وتكلفة التوقف وتوقعات الصيانة خلال 7 أيام."],
+            ["آلية التشغيل", "يقوم مشرف واحد بإصدار أوامر العمل مباشرة من التنبيهات وقراءات الحساسات."],
+          ],
+          modules: ["سجل الأصول", "صحة الآلات", "أوامر العمل التنبؤية", "لوحة التوقفات"],
+        },
+        mid: {
+          plant: "مشغل مواد بناء | الرياض + الدمام",
+          fit: "مصنعان | 126 أصلاً | فرق اعتمادية وصيانة",
+          summary:
+            "مركز قيادة مشترك لمشغل متنامٍ يحتاج إلى مقارنة بين المواقع وتخطيط الصيانة وترتيب الأعطال المحتملة بشكل تفسيري عبر أصول متنوعة.",
+          outcomes: [
+            ["الهدف الرئيسي", "توحيد الصيانة التنبؤية عبر المرافق والسيور والضواغط والمحركات."],
+            ["الرؤية التنفيذية", "مقارنة بؤر المخاطر وMTBF وMTTR وعبء العمل المتوقع لكل موقع."],
+            ["آلية التشغيل", "يراجع مهندسو الاعتمادية ترتيب المخاطر بالذكاء الاصطناعي ثم يدفعون أوامر العمل لكل مصنع."],
+          ],
+          modules: ["لوحات متعددة المواقع", "تحليل الأسباب الجذرية", "تخطيط قطع الغيار", "قواعد تصعيد السلامة"],
+        },
+        enterprise: {
+          plant: "نشر على مستوى مجموعة صناعية | المملكة",
+          fit: "8 مصانع | أكثر من 640 أصلاً | حوكمة مركزية وتنفيذ محلي",
+          summary:
+            "بنية متعددة المستأجرين للمجموعات الصناعية الكبيرة التي تحتاج إلى الحوكمة وعزل البيانات والإشراف التنفيذي واتخاذ القرار التشغيلي المحلي في كل موقع.",
+          outcomes: [
+            ["الهدف الرئيسي", "بناء حوكمة موحدة للاعتمادية على مستوى المجموعة مع الحفاظ على المساءلة داخل كل مصنع."],
+            ["الرؤية التنفيذية", "خريطة مخاطر على مستوى المجموعة واتجاهات تكلفة التوقف ومقارنة أداء المواقع."],
+            ["آلية التشغيل", "تضع الإدارة المركزية السياسات بينما يدير كل مصنع التنبيهات وأوامر العمل وإجراءات السلامة محلياً."],
+          ],
+          modules: ["عزل المستأجرين", "الذكاء التنفيذي", "مقارنة الأداء بين المواقع", "سير عمل عربي / إنجليزي"],
+        },
+      },
     },
     assetsPage: {
       tableTitle: "قائمة الأصول",
@@ -1641,6 +1833,7 @@ const translations = {
 let currentLocale = "en";
 let currentPage = "dashboard";
 let currentTheme = localStorage.getItem("kashef-theme") || "dark";
+let currentShowcase = "small";
 
 const nav = document.getElementById("nav");
 const content = document.getElementById("content");
@@ -1659,6 +1852,37 @@ function badge(value) {
 
 function panel(titleText, subtitle, inner) {
   return `<section class="panel"><h3>${titleText}</h3><p class="subtitle">${subtitle || ""}</p>${inner}</section>`;
+}
+
+function renderShowcaseExplorer(copy) {
+  const tabs = Object.entries(copy.showcaseTabs)
+    .map(
+      ([key, label]) =>
+        `<button class="showcase-button ${currentShowcase === key ? "active" : ""}" data-showcase="${key}">${label}</button>`,
+    )
+    .join("");
+  const scenario = copy.showcases[currentShowcase];
+  const outcomes = scenario.outcomes
+    .map(([titleText, body]) => `<div class="item-card"><strong>${titleText}</strong>${body}</div>`)
+    .join("");
+  const modules = scenario.modules.map((item) => `<span class="showcase-chip">${item}</span>`).join("");
+
+  return panel(
+    copy.showcaseTitle,
+    copy.showcaseSubtitle,
+    `
+      <div class="showcase-switch">${tabs}</div>
+      <div class="showcase-layout" id="showcase-explorer">
+        <div class="showcase-summary">
+          <div class="eyebrow">${scenario.plant}</div>
+          <strong>${scenario.fit}</strong>
+          <p>${scenario.summary}</p>
+          <div class="showcase-chip-row">${modules}</div>
+        </div>
+        <div class="card-list">${outcomes}</div>
+      </div>
+    `,
+  );
 }
 
 function renderDashboard() {
@@ -1712,6 +1936,7 @@ function renderDashboard() {
 
   return `
     ${stats}
+    ${renderShowcaseExplorer(copy)}
     <div class="two-col">
       ${panel(copy.riskTitle, copy.riskSubtitle, riskTable)}
       ${panel(copy.hotspotsTitle, copy.hotspotsSubtitle, hotspots)}
@@ -1953,6 +2178,16 @@ nav.addEventListener("click", (event) => {
   renderPage(button.dataset.page);
 });
 
+content.addEventListener("click", (event) => {
+  const button = event.target.closest(".showcase-button");
+  if (!button) return;
+  currentShowcase = button.dataset.showcase;
+  if (currentPage === "dashboard") {
+    renderPage("dashboard");
+    document.getElementById("showcase-explorer")?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+});
+
 document.querySelector(".locale-switch").addEventListener("click", (event) => {
   const button = event.target.closest(".locale-button");
   if (!button) return;
@@ -1965,9 +2200,15 @@ document.querySelector(".theme-switch").addEventListener("click", (event) => {
   setTheme(button.dataset.theme);
 });
 
+document.querySelector(".secondary-button").addEventListener("click", () => {
+  if (currentPage !== "dashboard") {
+    renderPage("dashboard");
+  }
+  document.getElementById("showcase-explorer")?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
 setTheme(currentTheme);
 setLocale("en");
-
 </script>
   </body>
   </html>
