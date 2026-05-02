@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kashef Ai</title>
+    <meta http-equiv="Cache-Control" content="no-store, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <style>
 :root {
   --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
@@ -1154,6 +1157,7 @@ html[dir="rtl"] .badge {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
 </style>
   </head>
   <body>
@@ -1272,7 +1276,7 @@ const translations = {
       assets: "Assets",
       machineHealth: "Machine Health",
       workOrders: "Work Orders",
-      incidents: "Incidents <script src="./script.js?v=11"></script> RCA",
+      incidents: "Incidents & RCA",
       safety: "Safety",
       admin: "Settings",
     },
@@ -1321,7 +1325,7 @@ const translations = {
           "Generate, assign, track, and close maintenance work with SLA, downtime impact, and priority visibility.",
       },
       incidents: {
-        eyebrow: "Incident <script src="./script.js?v=11"></script> RCA",
+        eyebrow: "Incident & RCA",
         title: "Failure analysis and root-cause intelligence",
         description:
           "Correlate sensor behavior, incident history, technician notes, and operational context to explain probable causes.",
@@ -2209,6 +2213,7 @@ document.querySelector(".secondary-button").addEventListener("click", () => {
 
 setTheme(currentTheme);
 setLocale("en");
+
 </script>
   </body>
   </html>
