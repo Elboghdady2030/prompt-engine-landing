@@ -161,10 +161,39 @@ Use `OPENAI_MODEL` to choose the target OpenAI model. OpenAI’s current model d
 
 A ready-to-copy Python loop example is included at [backend/examples/openai_responses_agent_loop.py](/Users/mostafaelboghdady/Documents/Codex/2026-04-22-you-are-a-principal-software-architect/backend/examples/openai_responses_agent_loop.py). It fetches the Kashef Ai tool catalog, sends the request to OpenAI, executes tool calls locally, and feeds `function_call_output` items back until the model returns a final answer.
 
+A matching Node.js version is included at [backend/examples/openai_responses_agent_loop.mjs](/Users/mostafaelboghdady/Documents/Codex/2026-04-22-you-are-a-principal-software-architect/backend/examples/openai_responses_agent_loop.mjs) for teams integrating from JavaScript or server-side TypeScript environments.
+
+A production-leaning typed TypeScript variant is included at [backend/examples/openai_responses_agent_loop.ts](/Users/mostafaelboghdady/Documents/Codex/2026-04-22-you-are-a-principal-software-architect/backend/examples/openai_responses_agent_loop.ts), with safer tool-call parsing and explicit JSON object validation.
+
+A reusable app-side SDK module is now available at [apps/web/lib/kashef-agent-sdk.ts](/Users/mostafaelboghdady/Documents/Codex/2026-04-22-you-are-a-principal-software-architect/apps/web/lib/kashef-agent-sdk.ts). It is server-only, typed, and designed so Next.js server routes, actions, or backend adapters can:
+
+- fetch the OpenAI tool catalog
+- build request templates
+- execute tool calls
+- run the full OpenAI Responses API tool loop through one integration layer
+
+The app now also exposes a secure server route at [apps/web/app/api/agent-assistant/route.ts](/Users/mostafaelboghdady/Documents/Codex/2026-04-22-you-are-a-principal-software-architect/apps/web/app/api/agent-assistant/route.ts). This lets the UI call one server endpoint without exposing `KASHEF_AGENT_KEY` or `OPENAI_API_KEY` to the browser.
+
+An interactive dashboard assistant panel is now embedded in [apps/web/app/dashboard/page.tsx](/Users/mostafaelboghdady/Documents/Codex/2026-04-22-you-are-a-principal-software-architect/apps/web/app/dashboard/page.tsx) through [apps/web/components/agent-assistant-panel.tsx](/Users/mostafaelboghdady/Documents/Codex/2026-04-22-you-are-a-principal-software-architect/apps/web/components/agent-assistant-panel.tsx). It supports suggested prompts, role-aware context, loading/error states, and server-routed answers from Kashef Ai.
+
+The real Next.js app now includes a cookie-backed runtime language switch through [apps/web/components/locale-switch.tsx](/Users/mostafaelboghdady/Documents/Codex/2026-04-22-you-are-a-principal-software-architect/apps/web/components/locale-switch.tsx) and [apps/web/app/api/locale/route.ts](/Users/mostafaelboghdady/Documents/Codex/2026-04-22-you-are-a-principal-software-architect/apps/web/app/api/locale/route.ts), so users can toggle English and Arabic in-app without rebuilding.
+
 Install the official SDK before running the example:
 
 ```bash
 pip install openai
+```
+
+For Node.js:
+
+```bash
+npm install openai
+```
+
+For TypeScript:
+
+```bash
+npm install openai typescript tsx @types/node
 ```
 
 ## Security Posture
