@@ -2,8 +2,15 @@ import {
   assetDetailById,
   assets,
   dashboardData,
+  incidents,
+  industrialFieldSets,
   intakeSubmissions,
+  intakeWorkspaces,
+  roleProfiles,
+  safetyAlerts,
+  users,
   workOrderDetailById,
+  workOrders,
 } from "@/lib/demo-data";
 import type { AgentAssistantRequest, AgentAssistantResponse } from "@/lib/types";
 
@@ -39,12 +46,48 @@ export async function getAsset(assetId: number) {
   return request(`/assets/${assetId}`, assetDetailById[assetId] ?? assetDetailById[103]);
 }
 
+export async function getWorkOrders() {
+  const data = await request("/work-orders", { items: workOrders });
+  return "items" in data ? data.items : workOrders;
+}
+
 export async function getWorkOrder(workOrderId: number) {
   return request(`/work-orders/${workOrderId}`, workOrderDetailById[workOrderId] ?? workOrderDetailById[201]);
 }
 
+export async function getIncidents() {
+  const data = await request("/incidents", { items: incidents });
+  return "items" in data ? data.items : incidents;
+}
+
+export async function getSafetyAlerts() {
+  const data = await request("/safety-alerts", { items: safetyAlerts });
+  return "items" in data ? data.items : safetyAlerts;
+}
+
+export async function getUsers() {
+  const data = await request("/users", { items: users });
+  return "items" in data ? data.items : users;
+}
+
+export async function getRoleProfiles() {
+  const data = await request("/users/role-profiles", { items: roleProfiles });
+  return "items" in data ? data.items : roleProfiles;
+}
+
+export async function getIntakeWorkspaces() {
+  const data = await request("/admin/intake-workspaces", { items: intakeWorkspaces });
+  return "items" in data ? data.items : intakeWorkspaces;
+}
+
+export async function getIndustrialFieldSets() {
+  const data = await request("/admin/industrial-field-sets", { items: industrialFieldSets });
+  return "items" in data ? data.items : industrialFieldSets;
+}
+
 export async function getIntakeSubmissions() {
-  return intakeSubmissions;
+  const data = await request("/admin/intake-submissions", { items: intakeSubmissions });
+  return "items" in data ? data.items : intakeSubmissions;
 }
 
 export async function askAgentAssistant(payload: AgentAssistantRequest): Promise<AgentAssistantResponse> {
