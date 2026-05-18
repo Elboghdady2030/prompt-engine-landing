@@ -1,4 +1,15 @@
-import type { AssetDetail, DashboardData, IntakeSubmission, WorkOrderDetail } from "@/lib/types";
+import type {
+  AssetDetail,
+  DashboardData,
+  IncidentItem,
+  IndustrialFieldSet,
+  IntakeSubmission,
+  IntakeWorkspace,
+  RoleProfile,
+  UserRecord,
+  WorkOrderDetail,
+  WorkOrderItem,
+} from "@/lib/types";
 
 export const dashboardData: DashboardData = {
   kpis: {
@@ -6,11 +17,16 @@ export const dashboardData: DashboardData = {
     healthy_assets: 2,
     assets_at_risk: 2,
     critical_alerts: 1,
+    open_work_orders: 2,
+    planned_vs_unplanned_maintenance: { planned: 7, unplanned: 3 },
     mtbf_hours: 412,
     mttr_hours: 5.6,
     downtime_hours: 7,
+    maintenance_cost_trend: [6400, 7100, 6900, 7750, 8200, 9450],
     predicted_failures_next_7_days: 1,
     predicted_failures_next_30_days: 2,
+    spare_parts_consumption_trend: [8, 10, 9, 12, 11, 14],
+    safety_incidents_high_risk_alerts: 2,
     plant_health_index: 72.5,
   },
   assets: [
@@ -142,6 +158,31 @@ export const assetDetailById: Record<number, AssetDetail> = {
   },
 };
 
+export const workOrders: WorkOrderItem[] = [
+  {
+    id: 201,
+    asset_id: 103,
+    title: "Investigate abnormal vibration on Cooling Water Pump 7",
+    status: "in_progress",
+    priority: "critical",
+    assigned_to: "Ahmed Al-Qahtani",
+    sla_hours: 8,
+    downtime_impact_hours: 3.5,
+    type: "predictive",
+  },
+  {
+    id: 202,
+    asset_id: 101,
+    title: "Review compressor heat increase and lubrication cycle",
+    status: "open",
+    priority: "high",
+    assigned_to: "Maha Al-Dosari",
+    sla_hours: 24,
+    downtime_impact_hours: 1.2,
+    type: "inspection",
+  },
+];
+
 export const workOrderDetailById: Record<number, WorkOrderDetail> = {
   201: {
     item: {
@@ -179,6 +220,181 @@ export const workOrderDetailById: Record<number, WorkOrderDetail> = {
   },
 };
 
+export const incidents: IncidentItem[] = [
+  {
+    id: 301,
+    asset_id: 103,
+    title: "Pump discharge instability",
+    severity: "high",
+    status: "open",
+    summary: "Pressure fluctuation and vibration spike detected during early shift.",
+    rcaSummary: "The incident pattern aligns most strongly with seal wear and progressive bearing degradation. Hydraulic stress likely amplified the failure mode.",
+  },
+  {
+    id: 302,
+    asset_id: 101,
+    title: "Compressor thermal drift",
+    severity: "medium",
+    status: "investigating",
+    summary: "Sustained heat rise above seasonal operating baseline.",
+    rcaSummary: "Heat rise indicates lubrication inefficiency or reduced cooling performance under load.",
+  },
+];
+
+export const safetyAlerts = [
+  { id: 401, title: "Pump degradation linked to slip and hot-surface exposure", severity: "critical", status: "active", risk_matrix: "5x4" },
+  { id: 402, title: "Compressor heat trend may increase operator exposure during manual inspection", severity: "high", status: "active", risk_matrix: "4x3" },
+];
+
+export const users: UserRecord[] = [
+  { id: 1, name: "Faisal Al-Harbi", email: "admin@najd-industries.sa", role: "super_admin", locale: "en", timezone: "Asia/Riyadh" },
+  { id: 2, name: "Rashed Al-Mutairi", email: "owner@najd-industries.sa", role: "factory_owner", locale: "en", timezone: "Asia/Riyadh" },
+  { id: 3, name: "Lina Al-Otaibi", email: "plant.manager@najd-industries.sa", role: "plant_manager", locale: "ar", timezone: "Asia/Riyadh" },
+  { id: 4, name: "Maha Al-Dosari", email: "maintenance.manager@najd-industries.sa", role: "maintenance_manager", locale: "en", timezone: "Asia/Riyadh" },
+  { id: 5, name: "Khaled Al-Qahtani", email: "reliability@najd-industries.sa", role: "reliability_engineer", locale: "en", timezone: "Asia/Riyadh" },
+  { id: 6, name: "Noura Al-Shammari", email: "hse@najd-industries.sa", role: "safety_manager", locale: "ar", timezone: "Asia/Riyadh" },
+  { id: 7, name: "Ahmed Al-Qahtani", email: "technician@najd-industries.sa", role: "maintenance_technician", locale: "en", timezone: "Asia/Riyadh" },
+  { id: 8, name: "Sara Al-Ghamdi", email: "audit@najd-industries.sa", role: "viewer", locale: "en", timezone: "Asia/Riyadh" },
+];
+
+export const roleProfiles: RoleProfile[] = [
+  {
+    role: "super_admin",
+    label: "Super Admin",
+    dashboard_title: "Tenant governance and platform control",
+    mission: "Own tenant onboarding, configuration standards, integrations, and data governance across every industrial site.",
+    primary_tabs: ["Users", "Settings", "Data Intake", "Reports"],
+    core_inputs: ["Tenant hierarchy", "Role assignments", "Threshold templates", "Integration readiness"],
+    approvals: ["Cross-tenant settings changes", "Sensor namespace activation", "Escalation policy releases"],
+    outcome_metrics: ["Platform adoption", "Data completeness", "Alert routing accuracy"],
+    data_scope: ["All factories", "All master data", "Security and localization settings"],
+  },
+  {
+    role: "plant_manager",
+    label: "Plant Manager",
+    dashboard_title: "Operational command and production continuity",
+    mission: "Keep production lines stable by validating asset status, shift impacts, and cross-functional action plans.",
+    primary_tabs: ["Dashboard", "Assets", "Work Orders", "Safety"],
+    core_inputs: ["Line ownership", "Shift constraints", "Outage approvals", "Production impact notes"],
+    approvals: ["Line stoppages", "Priority conflicts", "Temporary operational controls"],
+    outcome_metrics: ["Schedule adherence", "Open critical alerts", "Unplanned downtime hours"],
+    data_scope: ["Plant and line context", "Operational priorities", "Shift-level comments"],
+  },
+  {
+    role: "maintenance_manager",
+    label: "Maintenance Manager",
+    dashboard_title: "Maintenance backlog, labor, and spare planning",
+    mission: "Convert predictive insights into executable work while balancing labor, shutdown windows, and spare availability.",
+    primary_tabs: ["Work Orders", "Machine Health", "Assets", "Data Intake"],
+    core_inputs: ["PM task plans", "Work order priorities", "Spare reservation decisions", "Resolution closure notes"],
+    approvals: ["Crew assignment changes", "Shutdown task bundling", "Emergency work reclassification"],
+    outcome_metrics: ["SLA attainment", "PM compliance", "Backlog aging"],
+    data_scope: ["Work execution", "Maintenance history", "Spare requirements"],
+  },
+  {
+    role: "reliability_engineer",
+    label: "Reliability Engineer",
+    dashboard_title: "Condition monitoring and failure prevention",
+    mission: "Validate sensor quality, interpret anomalies, tune scoring, and recommend the most likely failure causes.",
+    primary_tabs: ["Machine Health", "Incidents & RCA", "Assets", "Data Intake"],
+    core_inputs: ["Baseline ranges", "Failure mode libraries", "Anomaly comments", "RCA evidence links"],
+    approvals: ["Risk-score overrides", "Model feedback acceptance", "RUL assumption updates"],
+    outcome_metrics: ["Prediction precision", "False-positive rate", "Repeat-failure reduction"],
+    data_scope: ["Sensor baselines", "Failure signatures", "Root-cause narratives"],
+  },
+  {
+    role: "safety_manager",
+    label: "Safety / HSE Manager",
+    dashboard_title: "Exposure monitoring and control assurance",
+    mission: "Link asset degradation to people risk by validating controls, incident severity, and exposure scenarios.",
+    primary_tabs: ["Safety", "Incidents & RCA", "Data Intake", "Reports"],
+    core_inputs: ["Hazard categories", "Control effectiveness", "Near-miss details", "Permit restrictions"],
+    approvals: ["Critical exposure escalations", "Restricted operation controls", "Incident severity finalization"],
+    outcome_metrics: ["High-risk alert closure", "Exposure reduction", "Incident recurrence"],
+    data_scope: ["Hazards", "Controls", "Incident severity and HSE actions"],
+  },
+];
+
+export const intakeWorkspaces: IntakeWorkspace[] = [
+  {
+    id: "asset-master",
+    title: "Asset registry and hierarchy intake",
+    owner_role: "plant_manager",
+    owner_label: "Plant Manager",
+    cadence: "During onboarding and whenever lines or equipment change",
+    purpose: "Ensure every factory, plant, line, and asset is mapped with the right criticality, ownership, and production context.",
+    required_fields: ["Factory / plant / line hierarchy", "Asset code and asset class", "Criticality and production dependency"],
+    validation_rules: ["Every asset must belong to one plant and one production line"],
+    downstream_outputs: ["Executive dashboards", "Criticality-aware risk scoring", "Maintenance planning filters"],
+  },
+  {
+    id: "condition-monitoring",
+    title: "Condition monitoring and baseline configuration",
+    owner_role: "reliability_engineer",
+    owner_label: "Reliability Engineer",
+    cadence: "At sensor activation and after process changes",
+    purpose: "Set sensor mappings and baseline operating ranges that drive anomaly detection and health scoring.",
+    required_fields: ["Sensor tag mapping", "Engineering units", "Alarm thresholds"],
+    validation_rules: ["Thresholds require engineering reference"],
+    downstream_outputs: ["Health score", "Failure risk score", "Model feedback loop"],
+  },
+  {
+    id: "maintenance-execution",
+    title: "Maintenance planning and execution capture",
+    owner_role: "maintenance_manager",
+    owner_label: "Maintenance Manager",
+    cadence: "Daily planning with technician updates",
+    purpose: "Capture work order quality, spare consumption, and closure evidence so recommendations stay explainable and actionable.",
+    required_fields: ["Work type and priority", "Planned labor hours", "As-found condition"],
+    validation_rules: ["Closed work orders require technician notes"],
+    downstream_outputs: ["Backlog dashboards", "RCA evidence", "Spare forecasting"],
+  },
+  {
+    id: "incident-hse",
+    title: "Incident, exposure, and RCA intake",
+    owner_role: "safety_manager",
+    owner_label: "Safety / HSE Manager",
+    cadence: "Immediately after incidents and critical alerts",
+    purpose: "Create a traceable safety and incident record that ties machine condition, people exposure, and controls into one evidence trail.",
+    required_fields: ["Incident time and location", "Asset involved", "Immediate controls applied"],
+    validation_rules: ["Critical incidents require control verification"],
+    downstream_outputs: ["Safety dashboards", "RCA summaries", "Escalation rules"],
+  },
+];
+
+export const industrialFieldSets: IndustrialFieldSet[] = [
+  {
+    domain: "Asset master data",
+    subtitle: "Foundational data used by every dashboard, score, and work order.",
+    owner_roles: ["Super Admin", "Plant Manager", "Maintenance Manager"],
+    fields: [
+      { name: "Tenant, factory, plant, and production line", requirement: "required", notes: "Drives multi-tenant segregation and plant rollups." },
+      { name: "Asset code, tag, and local asset description", requirement: "required", notes: "Supports field usability and CMMS alignment." },
+      { name: "Criticality tier and downtime cost per hour", requirement: "required", notes: "Feeds prioritization and executive cost analytics." },
+    ],
+  },
+  {
+    domain: "Sensor and telemetry context",
+    subtitle: "Data required for explainable anomaly detection and threshold governance.",
+    owner_roles: ["Reliability Engineer", "Super Admin"],
+    fields: [
+      { name: "Sensor type, tag name, engineering unit, and sample rate", requirement: "required", notes: "Prevents invalid trend interpretation." },
+      { name: "Normal range by operating mode", requirement: "required", notes: "Essential for threshold tuning." },
+      { name: "Alarm limit and trip limit", requirement: "required", notes: "Distinguishes process risk from instrumentation faults." },
+    ],
+  },
+  {
+    domain: "Maintenance planning and execution",
+    subtitle: "Inputs needed to turn AI insight into governed maintenance action.",
+    owner_roles: ["Maintenance Manager", "Maintenance Technician"],
+    fields: [
+      { name: "Work order type, priority, and target SLA", requirement: "required", notes: "Ensures comparable backlog performance." },
+      { name: "Planned start, completion time, and downtime hours", requirement: "required", notes: "Feeds MTTR and downtime reporting." },
+      { name: "As-found condition, repair action, and closure evidence", requirement: "required", notes: "Critical for learning loops and false-positive review." },
+    ],
+  },
+];
+
 export const intakeSubmissions: IntakeSubmission[] = [
   {
     id: 1,
@@ -203,5 +419,17 @@ export const intakeSubmissions: IntakeSubmission[] = [
     summary: "Logged predictive inspection scope, parts reservation, and closure evidence requirements.",
     status: "submitted",
     created_at: "2026-04-22T10:15:00",
+  },
+  {
+    id: 3,
+    workspace_id: "incident-hse",
+    workspace_title: "Incident, exposure, and RCA intake",
+    owner_role: "safety_manager",
+    submitted_by: "Noura Al-Shammari",
+    plant: "Utilities Plant",
+    asset_reference: "PMP-07",
+    summary: "Captured exposure controls and restart restrictions for the cooling pump event.",
+    status: "review_required",
+    created_at: "2026-04-22T11:05:00",
   },
 ];
